@@ -25,4 +25,10 @@ public class Comment {
     @JoinColumn
     private Game game;
 
+
+    public Comment(String comment, Customer customer, Game game) {
+        this.comment = comment;
+        this.customer = customer;
+        this.game = game;
+    }
 }

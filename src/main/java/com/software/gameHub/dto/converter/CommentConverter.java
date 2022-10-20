@@ -9,15 +9,23 @@ import java.util.stream.Collectors;
 @Component
 public class CommentConverter {
 
-    private final GameConverter gameConverter;
+
 
     private final CustomerConverter customerConverter;
 
-    public CommentConverter(GameConverter gameConverter, CustomerConverter customerConverter) {
-        this.gameConverter = gameConverter;
+    public CommentConverter( CustomerConverter customerConverter) {
         this.customerConverter = customerConverter;
     }
 
+    public CommentDto convert (Comment from){
+        return new CommentDto
+                (
+                        from.getCommentId(),
+                        from.getComment(),
+                        customerConverter.convert(from.getCustomer()
+                        )
+                );
+    }
     public List<CommentDto> convert(List<Comment> fromList){
         return fromList.
                 stream().

@@ -1,10 +1,12 @@
 package com.software.gameHub.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 @Data
+@NoArgsConstructor
 @Entity
 public class Game {
     @Id
@@ -30,4 +32,9 @@ public class Game {
     @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.MERGE,mappedBy = "game")
     private List<Image> images ;
 
+    public Game(String name, double price, List<Category> categories) {
+        this.name = name;
+        this.price = price;
+        this.categories = categories;
+    }
 }

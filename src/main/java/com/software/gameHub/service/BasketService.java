@@ -1,28 +1,52 @@
 package com.software.gameHub.service;
 
-import com.software.gameHub.dto.BasketDto;
-import com.software.gameHub.dto.CreateBasketRequest;
-import com.software.gameHub.dto.converter.BasketConverter;
-import com.software.gameHub.entity.Basket;
+import com.software.gameHub.core.constant.Constant;
+import com.software.gameHub.core.exception.GameIdDoesNotExistException;
+import com.software.gameHub.dto.DeleteGameFromBasketRequest;
+import com.software.gameHub.entity.Buy;
+import com.software.gameHub.entity.Customer;
+import com.software.gameHub.entity.Game;
 import com.software.gameHub.repository.BasketDao;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BasketService {
 
     private final CustomerService customerService;
-    private final BasketDao basketDao;
-    private final BasketConverter basketConverter;
 
-    public BasketService(CustomerService customerService, BasketDao basketDao, BasketConverter basketConverter) {
+    private final GameService gameService;
+
+    public BasketService( CustomerService customerService, GameService gameService) {
         this.customerService = customerService;
-        this.basketDao = basketDao;
-        this.basketConverter = basketConverter;
+        this.gameService = gameService;
     }
 
+    public List<Game> deleteGameFromBasket(DeleteGameFromBasketRequest request ){
+        Game game = gameService.findById(request.getGameId());
+        Customer customer = customerService.findById(request.getCustomerId());
+        List<Game> collect = customer.getBasket().getGames().stream()
+                .filter(game1 -> game1.equals(game)).toList();
 
-    protected BasketDto create(CreateBasketRequest request){
-        Basket basket = new Basket(request.getCustomer());
-        return basketConverter.convert(basketDao.save(basket));
+        if(collect.get(0) == null){
+            throw new GameIdDoesNotExistException(Constant.GAME_ID_DOES_NOT_EXIST);
+        }
+        else{
+             customer.getBasket().getGames().remove(game);
+             return customer.getBasket().getGames();
+        }
+
+
+    }
+
+    public List<Buy> buyGameFromBasket(int customerId){
+        Customer customer = customerService.findById(customerId);
+
+        List<Game> games = customer.getBasket().getGames();
+
+        return  games.stream().map(game -> new Buy(customer, game, customer.getLibrary())).collect(Collectors.toList());
+
     }
 }

@@ -47,7 +47,7 @@ public class CategoryService {
 
     }
 
-    private Category findById(int categoryId) {
+    protected Category findById(int categoryId) {
         return categoryDao.findById(categoryId).orElseThrow(
                 () -> new CategoryIdDoesNotExist(Constant.CATEGORY_ID_DOES_NOT_EXIST));
     }
