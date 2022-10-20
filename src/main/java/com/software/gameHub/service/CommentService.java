@@ -2,9 +2,9 @@ package com.software.gameHub.service;
 
 import com.software.gameHub.core.constant.Constant;
 import com.software.gameHub.core.exception.CommentIdDoesNotExistException;
-import com.software.gameHub.dto.CommentDto;
-import com.software.gameHub.dto.CreateCommentRequest;
-import com.software.gameHub.dto.converter.CommentConverter;
+import com.software.gameHub.entity.dto.CommentDto;
+import com.software.gameHub.entity.dto.CreateCommentRequest;
+import com.software.gameHub.entity.dto.converter.CommentConverter;
 import com.software.gameHub.entity.Comment;
 import com.software.gameHub.entity.Customer;
 import com.software.gameHub.entity.Game;

@@ -1,8 +1,8 @@
 package com.software.gameHub.service;
 
-import com.software.gameHub.dto.BuyDto;
-import com.software.gameHub.dto.CreateBuyRequest;
-import com.software.gameHub.dto.converter.BuyConverter;
+import com.software.gameHub.entity.dto.BuyDto;
+import com.software.gameHub.entity.dto.CreateBuyRequest;
+import com.software.gameHub.entity.dto.converter.BuyConverter;
 import com.software.gameHub.entity.Buy;
 import com.software.gameHub.entity.Customer;
 import com.software.gameHub.entity.Game;

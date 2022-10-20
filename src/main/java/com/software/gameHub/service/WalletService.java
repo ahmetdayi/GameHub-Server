@@ -2,9 +2,9 @@ package com.software.gameHub.service;
 
 import com.software.gameHub.core.constant.Constant;
 import com.software.gameHub.core.exception.WalletIdDoesNotExistException;
-import com.software.gameHub.dto.AddBalanceRequest;
-import com.software.gameHub.dto.WalletDto;
-import com.software.gameHub.dto.converter.WalletConverter;
+import com.software.gameHub.entity.dto.AddBalanceRequest;
+import com.software.gameHub.entity.dto.WalletDto;
+import com.software.gameHub.entity.dto.converter.WalletConverter;
 import com.software.gameHub.entity.Wallet;
 import com.software.gameHub.repository.WalletDao;
 import org.springframework.stereotype.Service;

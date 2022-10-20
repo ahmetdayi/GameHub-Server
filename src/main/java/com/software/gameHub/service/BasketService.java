@@ -2,11 +2,10 @@ package com.software.gameHub.service;
 
 import com.software.gameHub.core.constant.Constant;
 import com.software.gameHub.core.exception.GameIdDoesNotExistException;
-import com.software.gameHub.dto.DeleteGameFromBasketRequest;
+import com.software.gameHub.entity.dto.DeleteGameFromBasketRequest;
 import com.software.gameHub.entity.Buy;
 import com.software.gameHub.entity.Customer;
 import com.software.gameHub.entity.Game;
-import com.software.gameHub.repository.BasketDao;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

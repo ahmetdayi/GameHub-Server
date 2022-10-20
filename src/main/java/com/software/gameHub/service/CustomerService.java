@@ -2,9 +2,9 @@ package com.software.gameHub.service;
 
 import com.software.gameHub.core.constant.Constant;
 import com.software.gameHub.core.exception.CustomerIdDoesNotExistException;
-import com.software.gameHub.dto.CreateCustomerRequest;
-import com.software.gameHub.dto.CustomerDto;
-import com.software.gameHub.dto.converter.CustomerConverter;
+import com.software.gameHub.entity.dto.CreateCustomerRequest;
+import com.software.gameHub.entity.dto.CustomerDto;
+import com.software.gameHub.entity.dto.converter.CustomerConverter;
 import com.software.gameHub.entity.Basket;
 import com.software.gameHub.entity.Customer;
 import com.software.gameHub.entity.Library;
