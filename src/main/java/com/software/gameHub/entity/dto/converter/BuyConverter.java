@@ -14,6 +14,9 @@ public class BuyConverter {
     }
 
     public BuyDto convert(Buy from){
+        if (from == null){
+            return null;
+        }
         return new BuyDto(from.getBuyId(), gameConverter.converter(from.getGame()));
     }
 }

@@ -21,6 +21,11 @@ public class WalletService {
         this.walletConverter = walletConverter;
     }
 
+    protected Wallet create(){
+        Wallet wallet =new Wallet();
+        return walletDao.save(wallet);
+    }
+
     public WalletDto addBalance(AddBalanceRequest request){
         Wallet wallet = findById(request.getWalletId());
         wallet.setBalance(request.getBalance());

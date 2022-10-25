@@ -15,7 +15,7 @@ public class Customer {
     private int customerId;
 
     private String mail;
-
+//username olsun
     private String name;
 
     private String surname;

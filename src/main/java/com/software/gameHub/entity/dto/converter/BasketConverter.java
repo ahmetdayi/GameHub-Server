@@ -16,6 +16,9 @@ public class BasketConverter {
     }
 
     public BasketDto convert(Basket from){
+        if (from == null){
+            return null;
+        }
         return new BasketDto(from.getBasketId(),
                 basketGameDtoConverter.converter(from.getGames()));
     }

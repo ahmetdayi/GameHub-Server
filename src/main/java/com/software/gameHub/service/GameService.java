@@ -4,8 +4,10 @@ import com.software.gameHub.core.constant.Constant;
 import com.software.gameHub.core.exception.GameAlreadyExistsInBasketException;
 import com.software.gameHub.core.exception.GameIdDoesNotExistException;
 import com.software.gameHub.entity.dto.AddGameToBasketRequest;
+import com.software.gameHub.entity.dto.BasketGameDto;
 import com.software.gameHub.entity.dto.CreateGameRequest;
 import com.software.gameHub.entity.dto.GameDto;
+import com.software.gameHub.entity.dto.converter.BasketGameDtoConverter;
 import com.software.gameHub.entity.dto.converter.GameConverter;
 import com.software.gameHub.entity.Basket;
 import com.software.gameHub.entity.Category;
@@ -13,22 +15,22 @@ import com.software.gameHub.entity.Game;
 import com.software.gameHub.repository.GameDao;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
 
     private final GameDao gameDao;
 
-    private final CustomerService customerService;
-
     private final CategoryService categoryService;
 
     private final GameConverter gameConverter;
 
-    public GameService(GameDao gameDao, CustomerService customerService, CategoryService categoryService, GameConverter gameConverter) {
+
+    public GameService(GameDao gameDao, CategoryService categoryService, GameConverter gameConverter) {
         this.gameDao = gameDao;
-        this.customerService = customerService;
         this.categoryService = categoryService;
         this.gameConverter = gameConverter;
     }
@@ -54,17 +56,39 @@ public class GameService {
         return gameDao.findById(gameId).orElseThrow(()-> new GameIdDoesNotExistException(Constant.GAME_ID_DOES_NOT_EXIST));
     }
 
-    public List<Game> addGameToBasket(AddGameToBasketRequest request){
 
-        Basket basket = customerService.findById(request.getCustomerId()).getBasket();
-        Game game = findById(request.getGameId());
-        List<Game> collect = customerService.findById(request.getCustomerId()).getBasket().getGames().stream()
-                .filter(game1 -> game1.equals(game)).toList();
 
-        if(collect.get(0) != null){
-            throw new GameAlreadyExistsInBasketException(Constant.GAME_ALREADY_EXISTS_IN_BASKET);
-        }
-        basket.getGames().add(game);
-        return basket.getGames();
+    public List<GameDto> getAll(){
+        return gameConverter.convert(gameDao.findAll());
+    }
+
+    public List<GameDto> findGameByCategories_CategoryIdIn(List<Integer> categories){
+        List<Category> categories1 = categories.stream().map(categoryService::findById).toList();
+        return gameConverter.convert(gameDao.findGameByCategories_CategoryIdIn(categories));
+    }
+
+    public List<GameDto> findByNameStartingWith(String name){
+        return gameConverter.convert(gameDao.findByNameIgnoreCaseStartingWith(name));
+    }
+    public List<GameDto> findByNameContaining(String name){
+        return gameConverter.convert(gameDao.findByNameIgnoreCaseContaining(name));
+    }
+
+    public List<GameDto> findByOrderByName(){
+        return gameConverter.convert(gameDao.findByOrderByName());
+    }
+
+    public List<GameDto> findByOrderByNameDesc(){
+        return gameConverter.convert(gameDao.findByOrderByNameDesc());
+    }
+
+    public List<GameDto> findByOrderByPrice(){
+        return gameConverter.convert(gameDao.findByOrderByPrice());
+    }
+
+    public List<GameDto> findByOrderByPriceDesc(){
+        return gameConverter.convert(gameDao.findByOrderByPriceDesc());
     }
 }
+
+

@@ -20,6 +20,9 @@ public class BasketGameDtoConverter {
     }
 
     public List<BasketGameDto> converter(List<Game> fromList){
+        if (fromList == null){
+            return null;
+        }
         return fromList.stream().map(from-> new BasketGameDto(
                 from.getGameId(),
                 from.getName(),

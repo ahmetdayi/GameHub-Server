@@ -5,10 +5,7 @@ import com.software.gameHub.core.exception.CustomerIdDoesNotExistException;
 import com.software.gameHub.entity.dto.CreateCustomerRequest;
 import com.software.gameHub.entity.dto.CustomerDto;
 import com.software.gameHub.entity.dto.converter.CustomerConverter;
-import com.software.gameHub.entity.Basket;
 import com.software.gameHub.entity.Customer;
-import com.software.gameHub.entity.Library;
-import com.software.gameHub.entity.Wallet;
 import com.software.gameHub.repository.CustomerDao;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +14,19 @@ public class CustomerService {
 
     private final CustomerDao customerDao;
 
+    private final WalletService walletService;
+
+    private final LibraryService libraryService;
+
+    private final BasketService basketService;
+
     private final CustomerConverter customerConverter;
 
-    public CustomerService(CustomerDao customerDao, CustomerConverter customerConverter) {
+    public CustomerService(CustomerDao customerDao, WalletService walletService, LibraryService libraryService, BasketService basketService, CustomerConverter customerConverter) {
         this.customerDao = customerDao;
+        this.walletService = walletService;
+        this.libraryService = libraryService;
+        this.basketService = basketService;
         this.customerConverter = customerConverter;
     }
 
@@ -30,9 +36,7 @@ public class CustomerService {
     }
 
     public CustomerDto create(CreateCustomerRequest request){
-        Library library = new Library();
-        Wallet wallet = new Wallet();
-        Basket basket = new Basket();
+
 
         Customer customer = new Customer
                 (
@@ -41,9 +45,9 @@ public class CustomerService {
                         request.getSurname(),
                         request.getPassword(),
                         request.getPasswordMatch(),
-                        library,
-                        wallet,
-                        basket
+                        libraryService.create(),
+                        walletService.create(),
+                        basketService.create()
 
                 );
         return customerConverter.convert(customerDao.save(customer));

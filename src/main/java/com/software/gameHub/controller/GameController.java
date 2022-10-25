@@ -2,6 +2,7 @@ package com.software.gameHub.controller;
 
 
 import com.software.gameHub.entity.dto.AddGameToBasketRequest;
+import com.software.gameHub.entity.dto.BasketGameDto;
 import com.software.gameHub.entity.dto.CreateGameRequest;
 import com.software.gameHub.entity.dto.GameDto;
 
@@ -36,9 +37,49 @@ public class GameController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<List<Game>> addGameToBasket(@Valid @RequestBody AddGameToBasketRequest request){
-        return new ResponseEntity<>(gameService.addGameToBasket(request),HttpStatus.OK);
+//    @PostMapping
+//    public ResponseEntity<List<BasketGameDto>> addGameToBasket(@Valid @RequestBody AddGameToBasketRequest request){
+//        return new ResponseEntity<>(gameService.addGameToBasket(request),HttpStatus.OK);
+//
+//    }
 
+    @GetMapping()
+    public ResponseEntity<List<GameDto>> findGameByCategories_CategoryIdIn(@RequestParam("categoriesId") List<Integer> categoriesId){
+        return new ResponseEntity<>(gameService.findGameByCategories_CategoryIdIn(categoriesId),HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<GameDto>> getAll(){
+        return new ResponseEntity<>(gameService.getAll(),HttpStatus.OK);
+    }
+
+    @GetMapping("/getByNameStartingWith")
+    public ResponseEntity<List<GameDto>> findByNameStartingWith(@RequestParam("name") String name){
+        return new ResponseEntity<>(gameService.findByNameStartingWith(name),HttpStatus.OK);
+    }
+
+    @GetMapping("/getByNameContaining")
+    public ResponseEntity<List<GameDto>> findByNameContaining(@RequestParam("name") String name){
+        return new ResponseEntity<>(gameService.findByNameContaining(name),HttpStatus.OK);
+    }
+
+    @GetMapping("/getByOrderByName")
+    public ResponseEntity<List<GameDto>> findByOrderByName(){
+        return new ResponseEntity<>(gameService.findByOrderByName(),HttpStatus.OK);
+    }
+
+    @GetMapping("/getByOrderByNameDesc")
+    public ResponseEntity<List<GameDto>> findByOrderByNameDesc(){
+        return new ResponseEntity<>(gameService.findByOrderByNameDesc(),HttpStatus.OK);
+    }
+
+    @GetMapping("/getByOrderByPrice")
+    public ResponseEntity<List<GameDto>> findByOrderByPrice(){
+        return new ResponseEntity<>(gameService.findByOrderByPrice(),HttpStatus.OK);
+    }
+
+    @GetMapping("/getByOrderByPriceDesc")
+    public ResponseEntity<List<GameDto>> findByOrderByPriceDesc(){
+        return new ResponseEntity<>(gameService.findByOrderByPriceDesc(),HttpStatus.OK);
     }
 }
