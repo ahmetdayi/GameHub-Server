@@ -1,23 +1,20 @@
 package com.software.gameHub.service;
 
 import com.software.gameHub.core.constant.Constant;
-import com.software.gameHub.core.exception.GameAlreadyExistsInBasketException;
 import com.software.gameHub.core.exception.GameIdDoesNotExistException;
-import com.software.gameHub.entity.dto.AddGameToBasketRequest;
-import com.software.gameHub.entity.dto.BasketGameDto;
 import com.software.gameHub.entity.dto.CreateGameRequest;
 import com.software.gameHub.entity.dto.GameDto;
-import com.software.gameHub.entity.dto.converter.BasketGameDtoConverter;
 import com.software.gameHub.entity.dto.converter.GameConverter;
-import com.software.gameHub.entity.Basket;
 import com.software.gameHub.entity.Category;
 import com.software.gameHub.entity.Game;
 import com.software.gameHub.repository.GameDao;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class GameService {
@@ -56,14 +53,16 @@ public class GameService {
         return gameDao.findById(gameId).orElseThrow(()-> new GameIdDoesNotExistException(Constant.GAME_ID_DOES_NOT_EXIST));
     }
 
+    public GameDto getById(int gameId){
+        return gameConverter.convert(findById(gameId));
+    }
 
-
-    public List<GameDto> getAll(){
-        return gameConverter.convert(gameDao.findAll());
+    public List<GameDto> getAll(int pageNo,int pageSize){
+        Pageable pageable = PageRequest.of(pageNo-1,pageSize);
+        return gameConverter.convert(gameDao.findAll(pageable).getContent());
     }
 
     public List<GameDto> findGameByCategories_CategoryIdIn(List<Integer> categories){
-        List<Category> categories1 = categories.stream().map(categoryService::findById).toList();
         return gameConverter.convert(gameDao.findGameByCategories_CategoryIdIn(categories));
     }
 
@@ -89,6 +88,8 @@ public class GameService {
     public List<GameDto> findByOrderByPriceDesc(){
         return gameConverter.convert(gameDao.findByOrderByPriceDesc());
     }
+
+
 }
 
 

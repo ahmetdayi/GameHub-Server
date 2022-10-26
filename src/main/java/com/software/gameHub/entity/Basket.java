@@ -13,14 +13,10 @@ public class Basket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int basketId;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
-    @JoinTable(
-            joinColumns = @JoinColumn,
-            inverseJoinColumns = @JoinColumn)
-    private List<Game> games;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "basket")
     private Customer customer;
 
-
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE,mappedBy = "basket")
+    private List<GameInTheBasket> gameInTheBaskets;
 }

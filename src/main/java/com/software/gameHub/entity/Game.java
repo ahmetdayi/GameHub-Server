@@ -32,6 +32,9 @@ public class Game {
     @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.MERGE,mappedBy = "game")
     private List<Image> images ;
 
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE,mappedBy = "game")
+    private List<GameInTheBasket> gameInTheBaskets;
+
     public Game(String name, double price, List<Category> categories) {
         this.name = name;
         this.price = price;

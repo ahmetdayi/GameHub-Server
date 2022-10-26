@@ -4,6 +4,7 @@ import com.software.gameHub.core.constant.Constant;
 import com.software.gameHub.core.exception.CustomerIdDoesNotExistException;
 import com.software.gameHub.entity.dto.CreateCustomerRequest;
 import com.software.gameHub.entity.dto.CustomerDto;
+import com.software.gameHub.entity.dto.GameDto;
 import com.software.gameHub.entity.dto.converter.CustomerConverter;
 import com.software.gameHub.entity.Customer;
 import com.software.gameHub.repository.CustomerDao;
@@ -33,6 +34,9 @@ public class CustomerService {
     protected Customer findById(int customerId){
        return customerDao.findById(customerId).orElseThrow(
                ()->new CustomerIdDoesNotExistException(Constant.CUSTOMER_ID_DOES_NOT_EXIST));
+    }
+    public CustomerDto getById(int customerId){
+        return customerConverter.convert(findById(customerId));
     }
 
     public CustomerDto create(CreateCustomerRequest request){

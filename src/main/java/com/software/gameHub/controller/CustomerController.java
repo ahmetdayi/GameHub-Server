@@ -2,6 +2,7 @@ package com.software.gameHub.controller;
 
 import com.software.gameHub.entity.dto.CreateCustomerRequest;
 import com.software.gameHub.entity.dto.CustomerDto;
+import com.software.gameHub.entity.dto.GameDto;
 import com.software.gameHub.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,11 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerDto> findById(@PathVariable int customerId){
+        return new ResponseEntity<>(customerService.getById(customerId),HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<CustomerDto> create(@Valid @RequestBody CreateCustomerRequest request){
        return new ResponseEntity<>(customerService.create(request), HttpStatus.CREATED);

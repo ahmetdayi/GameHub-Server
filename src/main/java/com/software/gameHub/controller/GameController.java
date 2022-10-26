@@ -35,13 +35,10 @@ public class GameController {
         gameService.delete(gameId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-//    @PostMapping
-//    public ResponseEntity<List<BasketGameDto>> addGameToBasket(@Valid @RequestBody AddGameToBasketRequest request){
-//        return new ResponseEntity<>(gameService.addGameToBasket(request),HttpStatus.OK);
-//
-//    }
+    @GetMapping("/{gameId}")
+    public ResponseEntity<GameDto> findById(@PathVariable int gameId){
+        return new ResponseEntity<>(gameService.getById(gameId),HttpStatus.OK);
+    }
 
     @GetMapping()
     public ResponseEntity<List<GameDto>> findGameByCategories_CategoryIdIn(@RequestParam("categoriesId") List<Integer> categoriesId){
@@ -49,8 +46,8 @@ public class GameController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<GameDto>> getAll(){
-        return new ResponseEntity<>(gameService.getAll(),HttpStatus.OK);
+    public ResponseEntity<List<GameDto>> getAll(@RequestParam("pageNo")int pageNo,@RequestParam("pageSize") int pageSize){
+        return new ResponseEntity<>(gameService.getAll(pageNo,pageSize),HttpStatus.OK);
     }
 
     @GetMapping("/getByNameStartingWith")

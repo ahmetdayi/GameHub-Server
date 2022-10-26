@@ -1,5 +1,6 @@
 package com.software.gameHub.entity.dto;
 
+import com.software.gameHub.entity.Basket;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BasketDto {
+public class GameInTheBasketDto {
 
-    private int basketId;
+    private int gameInTheBasketId;
+
+    private BasketGameDto game;
+
+    private BasketDto Basket;
 }
