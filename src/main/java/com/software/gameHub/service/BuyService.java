@@ -4,6 +4,7 @@ import com.software.gameHub.entity.GameInTheBasket;
 import com.software.gameHub.entity.dto.BasketGameDto;
 import com.software.gameHub.entity.dto.BuyDto;
 import com.software.gameHub.entity.dto.CreateBuyRequest;
+import com.software.gameHub.entity.dto.DeleteGameFromBasketRequest;
 import com.software.gameHub.entity.dto.converter.BuyConverter;
 import com.software.gameHub.entity.Buy;
 import com.software.gameHub.entity.Customer;
@@ -61,6 +62,10 @@ public class BuyService {
         List<Game> games  =all.stream().map(BasketGameDto::getGameId).map(gameService::findById).toList();
         List<Buy> buys = games.stream().map(game -> new Buy(customer, game, customer.getLibrary())).toList();
         List<Buy> buys1 = buys.stream().map(buyDao::save).toList();
+        games.forEach(
+                game -> gameInTheBasketService.deleteGameFromBasket(
+                        new DeleteGameFromBasketRequest(customer.getCustomerId(),game.getGameId())));
+
 
     }
 }
