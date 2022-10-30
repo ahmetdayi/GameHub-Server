@@ -1,10 +1,14 @@
 package com.software.gameHub.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Image {
     @Id
@@ -16,5 +20,8 @@ public class Image {
     @JoinColumn
     private Game game;
 
-
+    public Image(String url, Game game) {
+        this.url = url;
+        this.game = game;
+    }
 }

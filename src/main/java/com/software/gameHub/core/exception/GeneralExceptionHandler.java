@@ -54,6 +54,10 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> walletIdDoesNotExistExceptionHandler(WalletIdDoesNotExistException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(ImageNotFoundException.class)
+    public ResponseEntity<?> imageNotFoundExceptionHandler(ImageNotFoundException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(CategoryNameAlreadyExistsException.class)
     public ResponseEntity<?> categoryNameAlreadyExistsExceptionHandler(CategoryNameAlreadyExistsException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
@@ -61,6 +65,10 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(GameAlreadyExistsInBasketException.class)
     public ResponseEntity<?> gameAlreadyExistsInBasketExceptionHandler(GameAlreadyExistsInBasketException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(MaxImageException.class)
+    public ResponseEntity<?> maxImageExceptionHandler(MaxImageException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
