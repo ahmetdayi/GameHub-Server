@@ -40,4 +40,7 @@ public class Game {
         this.price = price;
         this.categories = categories;
     }
+
+    //kutuphane de var mı sepette var mı bool degerlıerı koy
+    //description ekle
 }

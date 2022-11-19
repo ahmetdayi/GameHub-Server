@@ -8,8 +8,8 @@ import com.software.gameHub.entity.dto.converter.GameConverter;
 import com.software.gameHub.entity.Category;
 import com.software.gameHub.entity.Game;
 import com.software.gameHub.repository.GameDao;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
+
 import org.springframework.stereotype.Service;
 
 
@@ -57,9 +57,8 @@ public class GameService {
         return gameConverter.convert(findById(gameId));
     }
 
-    public List<GameDto> getAll(int pageNo,int pageSize){
-        Pageable pageable = PageRequest.of(pageNo-1,pageSize);
-        return gameConverter.convert(gameDao.findAll(pageable).getContent());
+    public List<GameDto> getAll(){
+        return gameConverter.convert(gameDao.findAll());
     }
 
     public List<GameDto> findGameByCategories_CategoryIdIn(List<Integer> categories){
