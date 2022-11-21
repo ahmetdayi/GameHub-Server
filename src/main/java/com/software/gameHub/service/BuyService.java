@@ -43,14 +43,13 @@ public class BuyService {
         Customer customer = customerService.findById(request.getCustomerId());
         Game game = gameService.findById(request.getGameId());
 
-
         Buy buy = new Buy
                 (
                         customer,
                         game,
                         customer.getLibrary()
                 );
-
+        game.setThereInLibrary(true);
         return buyConverter.convert(buyDao.save(buy));
     }
 

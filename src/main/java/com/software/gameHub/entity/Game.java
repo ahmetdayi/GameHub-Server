@@ -17,6 +17,12 @@ public class Game {
 
     private double price;
 
+    private String description;
+
+    private boolean isThereInLibrary = false;
+
+    private boolean isThereInBasket = false;
+
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinTable(
             joinColumns = @JoinColumn,
@@ -35,9 +41,10 @@ public class Game {
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE,mappedBy = "game")
     private List<GameInTheBasket> gameInTheBaskets;
 
-    public Game(String name, double price, List<Category> categories) {
+    public Game(String name, double price, String description, List<Category> categories) {
         this.name = name;
         this.price = price;
+        this.description = description;
         this.categories = categories;
     }
 

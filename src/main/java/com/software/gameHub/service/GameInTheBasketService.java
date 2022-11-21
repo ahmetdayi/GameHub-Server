@@ -40,6 +40,7 @@ public class GameInTheBasketService {
         Game game = gameService.findById(addGameToBasketRequest.getGameId());
 
         GameInTheBasket gameInTheBasket = new GameInTheBasket(game,basket);
+        game.setThereInBasket(true);
 
         gameInTheBasketDao.save(gameInTheBasket);
 
