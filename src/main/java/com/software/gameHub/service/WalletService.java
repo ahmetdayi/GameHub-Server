@@ -28,7 +28,8 @@ public class WalletService {
 
     public WalletDto addBalance(AddBalanceRequest request){
         Wallet wallet = findById(request.getWalletId());
-        wallet.setBalance(request.getBalance());
+        double totalAmount = wallet.getBalance()+request.getBalance();
+        wallet.setBalance(totalAmount);
         return walletConverter.convert(walletDao.save(wallet));
     }
 
