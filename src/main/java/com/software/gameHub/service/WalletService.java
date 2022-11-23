@@ -38,4 +38,8 @@ public class WalletService {
                 ()-> new WalletIdDoesNotExistException(Constant.WALLET_ID_DOES_NOT_EXIST)
                 );
     }
+
+    public WalletDto getById(int walletId){
+        return walletConverter.convert(findById(walletId));
+    }
 }

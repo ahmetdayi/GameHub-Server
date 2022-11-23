@@ -15,5 +15,6 @@ public class Constant {
     public static final String MAX_IMAGE_LESS_THAN_SIX = "Max Image Less Than Six";
     public static final String TOKEN_NOT_VALID = "Token Not Valid";
     public static final String CUSTOMER_NOT_FOUND = "Customer Not found";
+    public static final String LIBRARY_DOESNT_EXIST = "Library Doesn't Exist";
 }
 
