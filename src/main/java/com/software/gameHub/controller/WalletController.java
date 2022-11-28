@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/wallet")
+@CrossOrigin(origins = "*")
 public class WalletController {
 
     private final WalletService walletService;

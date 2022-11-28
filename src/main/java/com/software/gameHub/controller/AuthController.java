@@ -6,6 +6,7 @@ import com.software.gameHub.entity.dto.LoginResponse;
 import com.software.gameHub.service.AuthManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 
 @RequestMapping("/login")
 @RestController
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AuthManager authManager;

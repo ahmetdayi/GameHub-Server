@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/library")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class LibraryController {
 

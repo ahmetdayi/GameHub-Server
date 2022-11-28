@@ -39,15 +39,8 @@ public class SecurityConfig {
                 and().
                 authorizeRequests(auth -> {
 //            auth.antMatchers("/brand/**","/color/**").hasAuthority("ADMIN");
-            auth.antMatchers("/login/**",
-                    "/customer/**",
+            auth.antMatchers(
                     "/buy/**",
-                    "/basket/**",
-                    "/category/**",
-                    "/comment/**",
-                    "/game/**",
-                    "/gameInTheBasket/**",
-                    "/image/**",
                     "wallet/**").hasAnyAuthority("ADMIN", "USER");
 
             auth.anyRequest().authenticated();
@@ -58,7 +51,10 @@ public class SecurityConfig {
     }
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers( HttpMethod.POST,"/login","/customer");
+        return (web) -> web.ignoring().antMatchers( "/login/**","/customer/**","/game/**","/category/**","/basket/**",
+        "/comment/**",
+        "/gameInTheBasket/**",
+        "/image/**");
     }
 
     @Bean

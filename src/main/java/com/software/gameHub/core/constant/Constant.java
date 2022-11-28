@@ -16,5 +16,7 @@ public class Constant {
     public static final String TOKEN_NOT_VALID = "Token Not Valid";
     public static final String CUSTOMER_NOT_FOUND = "Customer Not found";
     public static final String LIBRARY_DOESNT_EXIST = "Library Doesn't Exist";
+    public static final String GAME_ALREADY_EXISTS_IN_LIBRARY = "Game Already Exist in Library";
+    public static final String EMAIL_ALREADY_USED = "Email Already Used.";
 }
 

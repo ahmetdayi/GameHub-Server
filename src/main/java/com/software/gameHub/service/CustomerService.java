@@ -3,6 +3,7 @@ package com.software.gameHub.service;
 import com.software.gameHub.core.constant.Constant;
 import com.software.gameHub.core.exception.CustomerIdDoesNotExistException;
 import com.software.gameHub.core.exception.CustomerNotFoundException;
+import com.software.gameHub.core.exception.EmailAlreadyUsedException;
 import com.software.gameHub.entity.Role;
 import com.software.gameHub.entity.SecurityCustomer;
 import com.software.gameHub.entity.dto.CreateCustomerRequest;
@@ -49,6 +50,7 @@ public class CustomerService implements UserDetailsService {
 
     public CustomerDto create(CreateCustomerRequest request){
 
+        customerControl(request.getMail());
 
         Customer customer = new Customer
                 (
@@ -64,6 +66,12 @@ public class CustomerService implements UserDetailsService {
 
                 );
         return customerConverter.convert(customerDao.save(customer));
+    }
+
+    private void customerControl(String mail) {
+        if(findCustomerByEmail(mail) !=null){
+            throw new EmailAlreadyUsedException(Constant.EMAIL_ALREADY_USED);
+        }
     }
 
     public void delete(int customerId){

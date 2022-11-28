@@ -70,6 +70,10 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> gameAlreadyExistsInBasketExceptionHandler(GameAlreadyExistsInBasketException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(GameAlreadyExistInLibrary.class)
+    public ResponseEntity<?> gameAlreadyExistInLibraryExceptionHandler(GameAlreadyExistInLibrary exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
+    }
     @ExceptionHandler(MaxImageException.class)
     public ResponseEntity<?> maxImageExceptionHandler(MaxImageException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);

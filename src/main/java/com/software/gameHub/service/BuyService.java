@@ -1,5 +1,7 @@
 package com.software.gameHub.service;
 
+import com.software.gameHub.core.constant.Constant;
+import com.software.gameHub.core.exception.GameAlreadyExistInLibrary;
 import com.software.gameHub.entity.GameInTheBasket;
 import com.software.gameHub.entity.dto.BasketGameDto;
 import com.software.gameHub.entity.dto.BuyDto;
@@ -42,7 +44,7 @@ public class BuyService {
 
         Customer customer = customerService.findById(request.getCustomerId());
         Game game = gameService.findById(request.getGameId());
-
+        gameInLibraryControl(game);
         Buy buy = new Buy
                 (
                         customer,
@@ -53,17 +55,24 @@ public class BuyService {
         return buyConverter.convert(buyDao.save(buy));
     }
 
+    private void gameInLibraryControl(Game game) {
+        if(game.isThereInLibrary()){
+            throw new GameAlreadyExistInLibrary(Constant.GAME_ALREADY_EXISTS_IN_LIBRARY);
+        }
+    }
+
     public void buyFromBasket(int customerId){
         List<BasketGameDto> all
                 = gameInTheBasketService.getAll(basketService.getBasketByCustomerId(customerId).getBasketId());
         Customer customer = customerService.findById(customerId);
-
+    //TODO stream ları kaldır repo yaz
         List<Game> games  =all.stream().map(BasketGameDto::getGameId).map(gameService::findById).toList();
         List<Buy> buys = games.stream().map(game -> new Buy(customer, game, customer.getLibrary())).toList();
-        List<Buy> buys1 = buys.stream().map(buyDao::save).toList();
+        buyDao.saveAll(buys);
         games.forEach(
                 game -> gameInTheBasketService.deleteGameFromBasket(
                         new DeleteGameFromBasketRequest(customer.getCustomerId(),game.getGameId())));
+        games.forEach(game -> game.setThereInLibrary(true));
 
 
     }
