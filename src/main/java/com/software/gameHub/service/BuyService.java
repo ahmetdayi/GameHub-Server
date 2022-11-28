@@ -72,7 +72,7 @@ public class BuyService {
         games.forEach(
                 game -> gameInTheBasketService.deleteGameFromBasket(
                         new DeleteGameFromBasketRequest(customer.getCustomerId(),game.getGameId())));
-        games.forEach(game -> game.setThereInLibrary(true));
+        
 
 
     }

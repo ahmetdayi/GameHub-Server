@@ -49,10 +49,12 @@ public class GameInTheBasketService {
     }
 
     private void gameInTheBasketControl(int basketId, int gameId) {
-        if(gameInTheBasketDao.findByBasket_BasketIdAndGame_GameId(basketId,gameId).get(0) != null
-                && gameService.findById(gameId).isThereInBasket()){
+        List<GameInTheBasket> findByBasket_BasketIdAndGame_GameId =
+         gameInTheBasketDao.findByBasket_BasketIdAndGame_GameId(basketId,gameId);
+         if(findByBasket_BasketIdAndGame_GameId.size()>0 ){
             throw new GameAlreadyExistsInBasketException(Constant.GAME_ALREADY_EXISTS_IN_BASKET);
-        }
+         }
+        
     }
 
     //bır oyunu ıkıkez sepete ekleyemez

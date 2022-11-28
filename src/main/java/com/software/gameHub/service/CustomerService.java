@@ -69,7 +69,7 @@ public class CustomerService implements UserDetailsService {
     }
 
     private void customerControl(String mail) {
-        if(findCustomerByEmail(mail) !=null){
+        if(customerDao.findByMail(mail).isPresent()){
             throw new EmailAlreadyUsedException(Constant.EMAIL_ALREADY_USED);
         }
     }
