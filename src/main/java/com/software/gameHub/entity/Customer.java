@@ -42,8 +42,8 @@ public class Customer {
     @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.MERGE,mappedBy = "customer")
     private List<Comment> comments;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "customer")
-    private Buy buy;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "customer")
+    private List<Buy> buy;
 
     public Customer
             (
