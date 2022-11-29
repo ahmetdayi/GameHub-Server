@@ -69,7 +69,7 @@ public class BuyService {
         List<Game> games  =all.stream().map(BasketGameDto::getGameId).map(gameService::findById).toList();
         List<Buy> buys = games.stream().map(game -> new Buy(customer, game, customer.getLibrary())).toList();
         buys.forEach(
-                buy -> buyDao.findByCustomer_CustomerIdAndGame_GameId(
+                buy ->gameInLibraryControl(
                         buy.getCustomer().getCustomerId(),buy.getGame().getGameId()));
         buyDao.saveAll(buys);
         games.forEach(
