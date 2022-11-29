@@ -44,7 +44,7 @@ public class BuyService {
 
         Customer customer = customerService.findById(request.getCustomerId());
         Game game = gameService.findById(request.getGameId());
-        gameInLibraryControl(game);
+        gameInLibraryControl(request.getCustomerId(),request.getGameId());
         Buy buy = new Buy
                 (
                         customer,
@@ -55,8 +55,8 @@ public class BuyService {
         return buyConverter.convert(buyDao.save(buy));
     }
 
-    private void gameInLibraryControl(Game game) {
-        if(game.isThereInLibrary()){
+    private void gameInLibraryControl(int customerId,int gameId) {
+        if(buyDao.findByCustomer_CustomerIdAndGame_GameId(customerId,gameId).isPresent()){
             throw new GameAlreadyExistInLibrary(Constant.GAME_ALREADY_EXISTS_IN_LIBRARY);
         }
     }
@@ -68,6 +68,9 @@ public class BuyService {
     //TODO stream ları kaldır repo yaz
         List<Game> games  =all.stream().map(BasketGameDto::getGameId).map(gameService::findById).toList();
         List<Buy> buys = games.stream().map(game -> new Buy(customer, game, customer.getLibrary())).toList();
+        buys.forEach(
+                buy -> buyDao.findByCustomer_CustomerIdAndGame_GameId(
+                        buy.getCustomer().getCustomerId(),buy.getGame().getGameId()));
         buyDao.saveAll(buys);
         games.forEach(
                 game -> gameInTheBasketService.deleteGameFromBasket(
