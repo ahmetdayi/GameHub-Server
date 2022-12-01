@@ -98,8 +98,9 @@ public class BuyService {
 
     private void buyControl(int customerId, int totalPrice) {
         Wallet wallet = customerService.findById(customerId).getWallet();
-        if (wallet.getBalance()<=totalPrice){
-            wallet.setBalance(totalPrice -= wallet.getBalance());
+        if (wallet.getBalance()>=totalPrice){
+            double price = wallet.getBalance() -totalPrice;
+            wallet.setBalance(price);
         }
         else{
             throw new YouDoNotHaveEnoughMoneyException(Constant.YOU_DO_NOT_ENOUGH_MANY);
