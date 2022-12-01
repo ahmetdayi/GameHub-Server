@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class BasketGameDto {
+public class GameDtoInBasket {
 
     private int gameId;
 

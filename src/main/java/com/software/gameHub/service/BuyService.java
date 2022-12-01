@@ -2,8 +2,9 @@ package com.software.gameHub.service;
 
 import com.software.gameHub.core.constant.Constant;
 import com.software.gameHub.core.exception.GameAlreadyExistInLibrary;
-import com.software.gameHub.entity.GameInTheBasket;
-import com.software.gameHub.entity.dto.BasketGameDto;
+import com.software.gameHub.core.exception.YouDoNotHaveEnoughMoneyException;
+import com.software.gameHub.entity.Wallet;
+import com.software.gameHub.entity.dto.GameDtoInBasket;
 import com.software.gameHub.entity.dto.BuyDto;
 import com.software.gameHub.entity.dto.CreateBuyRequest;
 import com.software.gameHub.entity.dto.DeleteGameFromBasketRequest;
@@ -15,6 +16,7 @@ import com.software.gameHub.repository.BuyDao;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BuyService {
@@ -62,21 +64,46 @@ public class BuyService {
     }
 
     public void buyFromBasket(int customerId){
-        List<BasketGameDto> all
+
+        int totalPrice = 0;
+        List<GameDtoInBasket> all
                 = gameInTheBasketService.getAll(basketService.getBasketByCustomerId(customerId).getBasketId());
+
         Customer customer = customerService.findById(customerId);
-    //TODO stream ları kaldır repo yaz
-        List<Game> games  =all.stream().map(BasketGameDto::getGameId).map(gameService::findById).toList();
+
+        List<Game> games  =gameService.findByGameBasketIdIn(all.stream().map(GameDtoInBasket::getGameId).collect(Collectors.toList()));
+
+        List<Double> prices = games.stream().map(Game::getPrice).toList();
+        for (double price:
+             prices) {
+            totalPrice +=price;
+        }
+        buyControl(customerId,totalPrice);
+
         List<Buy> buys = games.stream().map(game -> new Buy(customer, game, customer.getLibrary())).toList();
+       
         buys.forEach(
                 buy -> buyDao.findByCustomer_CustomerIdAndGame_GameId(
                         buy.getCustomer().getCustomerId(),buy.getGame().getGameId()));
+
         buyDao.saveAll(buys);
+
         games.forEach(
                 game -> gameInTheBasketService.deleteGameFromBasket(
                         new DeleteGameFromBasketRequest(customer.getCustomerId(),game.getGameId())));
         
 
+
+    }
+
+    private void buyControl(int customerId, int totalPrice) {
+        Wallet wallet = customerService.findById(customerId).getWallet();
+        if (wallet.getBalance()<=totalPrice){
+            wallet.setBalance(totalPrice -= wallet.getBalance());
+        }
+        else{
+            throw new YouDoNotHaveEnoughMoneyException(Constant.YOU_DO_NOT_ENOUGH_MANY);
+        }
 
     }
 

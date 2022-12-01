@@ -54,6 +54,10 @@ public class GameService {
         return gameDao.findById(gameId).orElseThrow(()-> new GameIdDoesNotExistException(Constant.GAME_ID_DOES_NOT_EXIST));
     }
 
+    protected List<Game> findByGameBasketIdIn(List<Integer> id){
+        return gameDao.findByGameInTheBaskets_GameInTheBasketIdIn(id);
+    }
+
     public GameDto getById(int gameId){
         return gameConverter.convert(findById(gameId));
     }
