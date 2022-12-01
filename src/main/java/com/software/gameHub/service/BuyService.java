@@ -76,7 +76,7 @@ public class BuyService {
         List<Double> prices = games.stream().map(Game::getPrice).toList();
         for (double price:
              prices) {
-            totalPrice +=price;
+            totalPrice +=pricen;
         }
         buyControl(customerId,totalPrice);
 
