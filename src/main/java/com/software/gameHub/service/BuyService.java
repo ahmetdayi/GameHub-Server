@@ -65,13 +65,13 @@ public class BuyService {
 
     public void buyFromBasket(int customerId){
 
-        int totalPrice = 0;
+        double totalPrice = 0;
         List<GameDtoInBasket> all
                 = gameInTheBasketService.getAll(basketService.getBasketByCustomerId(customerId).getBasketId());
 
         Customer customer = customerService.findById(customerId);
 
-        List<Game> games  =gameService.findByGameBasketIdIn(all.stream().map(GameDtoInBasket::getGameId).collect(Collectors.toList()));
+        List<Game> games  = all.stream().map(GameDtoInBasket::getGameId).map(gameService::findById).toList();
 
         List<Double> prices = games.stream().map(Game::getPrice).toList();
         for (double price:
@@ -96,7 +96,7 @@ public class BuyService {
 
     }
 
-    private void buyControl(int customerId, int totalPrice) {
+    private void buyControl(int customerId, double totalPrice) {
         Wallet wallet = customerService.findById(customerId).getWallet();
         if (wallet.getBalance()>=totalPrice){
             double price = wallet.getBalance() -totalPrice;
