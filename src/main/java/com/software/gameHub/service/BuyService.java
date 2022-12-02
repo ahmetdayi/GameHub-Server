@@ -16,7 +16,7 @@ import com.software.gameHub.repository.BuyDao;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class BuyService {
@@ -91,11 +91,7 @@ public class BuyService {
         games.forEach(
                 game -> gameInTheBasketService.deleteGameFromBasket(
                         new DeleteGameFromBasketRequest(customer.getCustomerId(),game.getGameId())));
-        
-
-
     }
-
     private void buyControl(int customerId, double totalPrice) {
         Wallet wallet = customerService.findById(customerId).getWallet();
         if (wallet.getBalance()>=totalPrice){
