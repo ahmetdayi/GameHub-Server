@@ -20,6 +20,8 @@ public class GameDto {
 
     private String description;
 
+    private String url;
+
     private boolean isThereInLibrary;
 
     private boolean isThereInBasket;

@@ -40,6 +40,7 @@ public class GameService {
                         request.getName(),
                         request.getPrice(),
                         request.getDescription(),
+                        request.getUrl(),
                         categories
                 );
 
